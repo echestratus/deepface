@@ -67,6 +67,21 @@ def build_session(
     # only log errors, some graphs (e.g. sface) flood stderr with harmless optimization warnings
     session_options = ort.SessionOptions()
     session_options.log_severity_level = 3
+    # A bounded pool is useful for small CPU services. Leave ONNX Runtime's
+    # defaults intact unless the caller explicitly configures this option.
+    thread_count = os.environ.get("DEEPFACE_ONNX_THREADS")
+    if thread_count is not None:
+        try:
+            threads = int(thread_count)
+        except ValueError as err:
+            raise ValueError("DEEPFACE_ONNX_THREADS must be a positive integer") from err
+        if threads < 1:
+            raise ValueError("DEEPFACE_ONNX_THREADS must be a positive integer")
+        session_options.intra_op_num_threads = threads
+        session_options.inter_op_num_threads = 1
+        session_options.execution_mode = ort.ExecutionMode.ORT_SEQUENTIAL
+        session_options.add_session_config_entry("session.intra_op.allow_spinning", "0")
+        session_options.add_session_config_entry("session.inter_op.allow_spinning", "0")
     if PROVIDERS["directml"] in providers:
         # DirectML does not support memory patterns or parallel graph execution.
         session_options.enable_mem_pattern = False

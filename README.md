@@ -1,5 +1,7 @@
 # deepface
 
+**Cari Kerja Face Lab:** pendaftaran wajah lewat kamera dengan panduan langsung dan pengambilan otomatis, lalu halaman terpisah untuk uji verifikasi. Berjalan lokal di CPU. Lihat [panduan berbahasa Indonesia](face_demo/README.md). Windows: `powershell -ExecutionPolicy Bypass -File .\start-face-demo.ps1`, lalu buka `http://127.0.0.1:8000/register`.
+
 <div align="center">
 
 [![Downloads](https://static.pepy.tech/personalized-badge/deepface?period=total&units=international_system&left_color=grey&right_color=blue&left_text=downloads)](https://pepy.tech/project/deepface)

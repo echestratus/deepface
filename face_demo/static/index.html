@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#3448df">
+  <title>Pendaftaran wajah · Face Lab</title>
+  <link rel="icon" href="/static/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/static/styles.css">
+  <script src="/static/app.js" type="module"></script>
+</head>
+<body data-page="register">
+  <aside class="rail" aria-label="Identitas aplikasi">
+    <a class="brand-mark" href="/register" aria-label="Face Lab beranda"><svg viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M11 5H5v6m16-6h6v6M5 21v6h6m16-6v6h-6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/><path d="M11 13v2m10-2v2m-10 5c3 3 7 3 10 0" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></a>
+    <span class="rail-label">FACE LAB</span><span class="rail-bottom">CK</span>
+  </aside>
+  <div class="workspace">
+    <header class="topbar">
+      <a class="wordmark" href="/register">cari<span>kerja</span><span class="divider">/</span><span class="product">Face Lab</span></a>
+      <nav class="page-nav" aria-label="Halaman Face Lab"><a href="/register" id="nav-register">Daftarkan wajah</a><a href="/verify" id="nav-verify">Uji verifikasi</a></nav>
+      <span class="local-badge"><span></span> Lokal · CPU</span>
+    </header>
+    <main>
+      <section class="intro">
+        <div data-view="register"><p class="eyebrow">PENDAFTARAN WAJAH</p><h1>Hadapkan wajah.<br>Ikuti panduannya.</h1><p class="intro-copy">Kamera memandu posisi dan kualitas wajah secara langsung.<br>Foto diambil otomatis saat wajah siap dan stabil.</p></div>
+        <div data-view="verify"><p class="eyebrow">PENGUJIAN FACE RECOGNITION</p><h1>Sudah terdaftar?<br>Uji kecocokan wajahnya.</h1><p class="intro-copy">Bandingkan wajah di kamera dengan foto referensi.<br>Coba wajah yang sama, lalu uji dengan orang berbeda.</p></div>
+        <div class="engine-card"><span class="engine-icon" aria-hidden="true">▦</span><div><strong>Pemrosesan lokal di CPU</strong><p id="engine-info">Menyiapkan mesin pengenalan…</p><span id="spoof-badge" class="small-badge">ONNX Runtime</span></div></div>
+      </section>
+      <div class="steps" data-view="register" aria-label="Tahap pendaftaran"><span id="step-identity"><b>1</b> Isi identitas</span><span class="step-line"></span><span id="step-camera"><b>2</b> Ikuti panduan kamera</span><span class="step-line"></span><span id="step-save"><b>3</b> Tinjau & simpan</span></div>
+      <div id="global-message" class="notice hidden" role="status"></div>
+      <div class="lab-grid">
+        <section class="panel enrollment" data-view="register">
+          <div class="section-heading"><div><p class="eyebrow">MULAI DARI SINI</p><h2>Identitas kamu</h2></div><span class="step-tag">01</span></div>
+          <p class="muted">Isi data terlebih dahulu. Foto referensi akan diambil langsung dari kamera.</p>
+          <form id="enrollment-form">
+            <fieldset id="identity-fields">
+              <label for="name">Nama lengkap</label><input id="name" name="name" autocomplete="name" minlength="2" maxlength="100" placeholder="Nama sesuai akun kamu" required>
+              <label for="email">Alamat email</label><input id="email" name="email" type="email" autocomplete="email" maxlength="254" placeholder="nama@email.com" required>
+              <label class="consent"><input id="consent" name="consent" type="checkbox" required><span>Saya setuju foto dan data wajah saya diproses serta disimpan di komputer ini untuk pengujian. Data dapat dihapus kapan saja.</span></label>
+            </fieldset>
+            <button id="register-start" class="button primary full" type="submit" disabled>Mulai kamera & panduan</button>
+            <p id="enroll-message" class="form-message" role="status" aria-live="polite"></p>
+          </form>
+          <div id="capture-review" class="capture-review hidden">
+            <p class="eyebrow">FOTO HASIL KAMERA</p><img id="capture-preview" alt="Foto referensi yang akan disimpan">
+            <p class="muted">Pastikan wajah terlihat jelas. Foto ini baru disimpan ke identitas setelah kamu menekan tombol di bawah.</p>
+            <button id="save-capture" type="button" class="button primary full">Simpan & lanjut uji verifikasi</button>
+            <button id="retake-capture" type="button" class="button secondary full">Ambil ulang foto</button>
+          </div>
+          <div class="privacy-note">Kamera baru diakses setelah tombol ditekan. Mikrofon tidak digunakan. Frame panduan tidak disimpan ke disk.</div>
+        </section>
+        <section class="panel identity-panel" data-view="verify">
+          <div class="section-heading"><div><p class="eyebrow">FOTO PEMBANDING</p><h2>Pilih identitas uji</h2></div><span class="step-tag">01</span></div>
+          <label for="verify-user">Identitas yang diharapkan</label><select id="verify-user"><option value="">Memuat identitas…</option></select>
+          <div id="reference-card" class="reference-card hidden"><img id="reference-photo" alt="Foto referensi identitas"><strong id="reference-name"></strong><p id="reference-email"></p></div>
+          <p id="no-identities" class="muted hidden">Belum ada wajah terdaftar. <a class="inline-link" href="/register">Daftarkan wajah lewat kamera</a> terlebih dahulu.</p>
+          <div class="test-tips"><strong>Coba dua skenario</strong><p>Hadapkan wajah pemilik identitas ke kamera: hasilnya seharusnya cocok.</p><p>Lalu coba dengan orang lain yang setuju ikut uji: hasilnya seharusnya tidak cocok.</p><p>Jarak dan riwayat pemeriksaan membantu evaluasi. Kecocokan per frame bukan persentase akurasi sistem.</p></div>
+          <a href="/register" class="button secondary full">Daftarkan identitas lain</a>
+        </section>
+        <section class="panel verification">
+          <div class="section-heading"><div><p class="eyebrow">KAMERA LANGSUNG</p><h2 id="camera-title">Panduan pengambilan wajah</h2></div><span class="step-tag">02</span></div>
+          <div class="camera-stage" id="camera-stage">
+            <video id="camera" autoplay muted playsinline aria-label="Pratinjau kamera"></video>
+            <img id="captured-stage" class="hidden" alt="Foto yang berhasil diambil">
+            <canvas id="overlay" aria-hidden="true"></canvas>
+            <div class="camera-empty" id="camera-empty"><div class="face-outline"><svg viewBox="0 0 96 96" fill="none" aria-hidden="true"><path d="M28 12H16a4 4 0 0 0-4 4v12m56-16h12a4 4 0 0 1 4 4v12M12 68v12a4 4 0 0 0 4 4h12m56-16v12a4 4 0 0 1-4 4H68" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><path d="M48 25c-12 0-18 10-18 23 0 15 8 25 18 25s18-10 18-25c0-13-6-23-18-23Z" stroke="currentColor" stroke-width="2"/><path d="M39 44v4m18-4v4m-16 12c5 4 9 4 14 0" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></div><strong id="camera-empty-title">Kamera siap memandu kamu</strong><p id="camera-empty-copy">Isi identitas dan persetujuan,<br>lalu mulai kamera.</p></div>
+            <div class="camera-top"><span id="camera-indicator">KAMERA NONAKTIF</span><span id="camera-size">640 × 480</span></div>
+            <div class="camera-bottom"><span>1 wajah · lihat ke kamera · cahaya dari depan</span></div>
+          </div>
+          <div class="camera-actions"><button class="button primary" id="start-camera" data-view="verify" disabled>Nyalakan kamera uji</button><button class="button secondary" id="stop-camera" disabled>Hentikan kamera</button><span class="frame-rate" id="frame-rate">Panduan diperbarui 2× / detik</span></div>
+          <div id="result-card" class="result-card" role="status" aria-live="polite"><span id="result-icon" class="result-icon">◎</span><div><strong id="result-title">Menunggu kamera</strong><p id="result-message">Ikuti arahan di sini setelah kamera dinyalakan.</p></div><span id="streak" class="streak">0 / 3</span></div>
+          <div data-view="register"><div class="capture-progress"><span id="capture-progress-label">Menunggu posisi wajah yang sesuai</span><progress id="capture-progress" max="3" value="0" aria-label="Progres pengambilan wajah otomatis"></progress></div><ul id="guide-checks" class="guide-checks" aria-label="Syarat pengambilan wajah"></ul><p class="metric-note">Tahan posisi sampai 3 pemeriksaan berturut-turut siap. Foto akan diambil otomatis.</p></div>
+          <div data-view="verify"><div class="metrics"><div><span>Jarak wajah</span><strong id="distance">—</strong></div><div><span>Ambang cocok ≤</span><strong id="threshold">—</strong></div><div><span>Waktu proses</span><strong id="latency">—</strong></div></div><p class="metric-note">Jarak lebih kecil berarti lebih mirip. Diperlukan 3 frame cocok berturut-turut untuk verifikasi.</p></div>
+        </section>
+      </div>
+      <section class="panel history-panel" data-view="verify"><div class="directory-heading"><div><p class="eyebrow">HASIL SESI PENGUJIAN</p><h2>Riwayat pemeriksaan <span id="frame-count">0</span></h2></div><button class="text-button" id="clear-history">Bersihkan riwayat</button></div><p class="muted">Hasil 10 frame terakhir ditampilkan untuk meninjau kecocokan, penolakan, dan kualitas gambar. Riwayat ini hanya ada di halaman ini.</p><div class="table-wrap"><table><thead><tr><th>Waktu</th><th>Hasil</th><th>Jarak</th><th>Proses</th></tr></thead><tbody id="frame-history"><tr><td colspan="4" class="empty-history">Belum ada pemeriksaan kamera.</td></tr></tbody></table></div></section>
+      <section class="panel directory" data-view="verify"><div class="directory-heading"><div><p class="eyebrow">DATA PENGUJIAN LOKAL</p><h2>Identitas terdaftar <span id="user-count">0</span></h2></div><button class="text-button" id="refresh-users">Muat ulang</button></div><div id="users-list" class="users-list"></div></section>
+      <aside class="limitations"><strong>Untuk evaluasi awal.</strong><p>Panduan posisi dan filter anti-spoof belum membuktikan liveness atau menjamin penolakan replay video, virtual camera, dan deepfake. Uji pada kondisi interview nyata sebelum integrasi.</p></aside>
+      <footer><span>cari kerja <b>Face Lab</b></span><span>DeepFace · SFace + YuNet · CPU only</span><a href="/docs" target="_blank" rel="noopener">Dokumentasi API</a></footer>
+    </main>
+  </div>
+</body>
+</html>
