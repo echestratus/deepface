@@ -1,1 +1,5 @@
 *.ipynb linguist-vendored
+.githooks/* text eol=lf
+scripts/*.py text eol=lf
+scripts/tests/*.py text eol=lf
+.github/workflows/*.yml text eol=lf

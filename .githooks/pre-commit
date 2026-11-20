@@ -1,0 +1,3 @@
+#!/bin/sh
+. .githooks/common.sh
+run_workflow pre-commit

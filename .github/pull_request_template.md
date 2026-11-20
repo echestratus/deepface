@@ -1,13 +1,14 @@
-## Tickets
+## Problem and resulting behavior
 
-Resolves https://github.com/serengil/deepface/issues/XXX
+Describe the concrete problem and what users can do after this change.
 
-### What has been done
+## Validation
 
-With this PR, ...
+- [ ] `python scripts/git_workflow.py verify` passed with real CPU model tests.
+- [ ] Relevant behavior, regressions, and limitations are documented.
+- [ ] Runtime photos, databases, model weights, and secrets are excluded.
+- [ ] PR title follows Conventional Commits; required CI checks pass.
 
-## How to test
+## Compatibility and deployment
 
-```shell
-make lint && make test
-```
+Describe breaking changes, migration steps, or deployment impact when applicable.
