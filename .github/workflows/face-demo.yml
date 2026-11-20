@@ -1,0 +1,30 @@
+name: Face Lab CPU
+
+on:
+  push:
+    paths: ['face_demo/**', 'deepface/commons/onnx_utils.py', 'start-face-demo.ps1', '.github/workflows/face-demo.yml']
+  pull_request:
+    paths: ['face_demo/**', 'deepface/commons/onnx_utils.py', 'start-face-demo.ps1', '.github/workflows/face-demo.yml']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: windows-latest
+    timeout-minutes: 15
+    env:
+      FACE_DEMO_MODEL_TESTS: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: 'face_demo/constraints.txt'
+      - run: python -m pip install -r face_demo/requirements-dev.txt -c face_demo/constraints.txt
+      - run: python -m face_demo.prepare
+      - run: python -m pytest face_demo/tests tests/unit/test_onnx_providers.py -q
+      - run: node --check face_demo/static/app.js
+      - run: node --test face_demo/tests/camera.test.mjs
